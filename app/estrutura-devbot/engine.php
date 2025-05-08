@@ -25,4 +25,15 @@ function salvarAuditoria($arquivo, $linhasAntes, $linhasDepois, $tipoAlteracao, 
     file_put_contents($logPath, json_encode($json, JSON_PRETTY_PRINT));
 }
 
+function aplicarEdicaoSegura($caminhoAbsoluto, $novoConteudo, $justificativa = "Atualização padrão") {
+    $conteudoAtual = file_get_contents($caminhoAbsoluto);
+    $linhasAntes = contarLinhas($conteudoAtual);
+    $linhasDepois = contarLinhas($novoConteudo);
+
+    $tipo = $linhasDepois > $linhasAntes ? "insercao" : ($linhasDepois < $linhasAntes ? "remocao" : "edicao");
+
+    file_put_contents($caminhoAbsoluto, $novoConteudo);
+    salvarAuditoria(basename($caminhoAbsoluto), $linhasAntes, $linhasDepois, $tipo, $justificativa);
+}
+
 ?>
