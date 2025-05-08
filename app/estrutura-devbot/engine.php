@@ -36,4 +36,23 @@ function aplicarEdicaoSegura($caminhoAbsoluto, $novoConteudo, $justificativa = "
     salvarAuditoria(basename($caminhoAbsoluto), $linhasAntes, $linhasDepois, $tipo, $justificativa);
 }
 
+function gerarEstruturaCompleta($dir, &$estrutura) {
+    $itens = scandir($dir);
+    foreach ($itens as $item) {
+        if ($item === '.' || $item === '..') continue;
+        $caminho = $dir . '/' . $item;
+        if (is_dir($caminho)) {
+            gerarEstruturaCompleta($caminho, $estrutura);
+        } else {
+            $estrutura[] = str_replace(__DIR__ . '/../', '', $caminho);
+        }
+    }
+}
+
+function salvarEstruturaGeral() {
+    $estrutura = [];
+    gerarEstruturaCompleta(__DIR__ . '/../', $estrutura);
+    file_put_contents(__DIR__ . '/estrutura_geral.json', json_encode(["arquivos" => $estrutura], JSON_PRETTY_PRINT));
+}
+
 ?>
