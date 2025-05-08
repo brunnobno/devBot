@@ -1,0 +1,30 @@
+DOCUMENTAÇÃO API PHP - AGENTE IA
+
+Funções disponíveis:
+- healthcheck: Testa se o servidor está ativo.
+- create_file: Cria um arquivo no repositório.
+- read_file: Lê o conteúdo de um arquivo.
+- update_file: Atualiza conteúdo de um arquivo existente.
+- delete_file: Deleta um arquivo.
+- list_files: Lista todos arquivos e pastas da raiz ou de uma pasta.
+- create_branch: Cria nova branch a partir da main ou outra.
+- merge_branch: Faz merge de uma branch na outra.
+- list_repositories: Lista todos repositórios do usuário GitHub.
+- create_repository: Cria um novo repositório no GitHub (público ou privado).
+
+Configuração necessária:
+- Criar `.env` com TOKEN e USERNAME do GitHub.
+- Hospedar o `github_api.php` em servidor acessível para o Plugin do ChatGPT.
+
+Como testar:
+- Enviar JSON com a ação desejada para o servidor.
+- Exemplo:
+{
+  "action": "healthcheck"
+}
+
+Observações:
+- O servidor deve ter suporte a cURL.
+- O TOKEN deve ter permissões para criação de repositórios e edição.
+- Todas requisições devem ser feitas via POST JSON.
+

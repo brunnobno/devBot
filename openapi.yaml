@@ -1,0 +1,117 @@
+openapi: 3.1.0
+info:
+  title: DevBot API
+  description: API para gerenciamento de projetos no GitHub e deploy de aplicações no servidor.
+  version: "1.0"
+servers:
+  - url: https://bnzhost.com.br/devBot/app
+
+paths:
+  /github_api.php:
+    post:
+      operationId: githubOperations
+      summary: Executa operações no GitHub e geração de código via OpenAI.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  description: >
+                    Ação a ser executada no GitHub ou via OpenAI.
+                    (create_file, read_file, update_file, delete_file, list_files,
+                    create_branch, merge_branch, list_repositories, list_all_repositories,
+                    create_repository, delete_repository, generate_code,
+                    initialize_repository, list_branches, list_commits).
+                repo:
+                  type: string
+                  description: Nome do repositório no GitHub (obrigatório para operações).
+                path:
+                  type: string
+                  description: Caminho do arquivo no repositório (opcional).
+                content:
+                  type: string
+                  description: Conteúdo do arquivo (texto ou base64).
+                commit_message:
+                  type: string
+                  description: Mensagem associada ao commit.
+                new_content:
+                  type: string
+                  description: Novo conteúdo para atualização.
+                new_branch:
+                  type: string
+                  description: Nome da nova branch a ser criada.
+                source_branch:
+                  type: string
+                  description: Branch de origem para operações.
+                base_branch:
+                  type: string
+                  description: Branch base para receber o merge.
+                head_branch:
+                  type: string
+                  description: Branch a ser mesclada.
+                repo_name:
+                  type: string
+                  description: Nome do repositório para criação ou exclusão.
+                private:
+                  type: boolean
+                  description: Definição se o repositório será privado.
+                prompt:
+                  type: string
+                  description: Texto de entrada para geração via OpenAI.
+      responses:
+        '200':
+          description: Resultado da operação solicitada.
+
+  /deploy/deploy_ftp.php:
+    get:
+      operationId: deployProject
+      summary: Fazer deploy automático de um projeto do GitHub para o servidor.
+      parameters:
+        - in: query
+          name: repo
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resultado do deploy.
+
+  /deploy/pre-run-check.php:
+    get:
+      operationId: preRunCheck
+      summary: Executar pré-análise de segurança antes do deploy.
+      parameters:
+        - in: query
+          name: repo
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resultado da análise de pré-deploy.
+
+  /deploy/manage_projects.php:
+    get:
+      operationId: manageProjects
+      summary: Listar ou excluir projetos implantados no servidor.
+      parameters:
+        - in: query
+          name: action
+          required: true
+          schema:
+            type: string
+            enum:
+              - list_projects
+              - delete_project
+        - in: query
+          name: project
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resultado da operação de gerenciamento.

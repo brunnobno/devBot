@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "DevBot - GitHub & Deploy Manager",
+  "name_for_model": "devbot",
+  "description_for_human": "Gerencie repositórios GitHub, implante projetos no servidor e automatize desenvolvimento com IA.",
+  "description_for_model": "Plugin para automação de GitHub (criar arquivos, ler, editar, gerenciar repos) e deploy automático para servidor.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://bnzhost.com.br/devBot/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://bnzhost.com.br/devBot/logo.png",
+  "contact_email": "suporte@bnzhost.com.br",
+  "legal_info_url": "https://bnzhost.com.br/devBot/policy.html"
+}
