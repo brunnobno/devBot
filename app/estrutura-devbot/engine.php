@@ -1,12 +1,28 @@
 <?php
 // engine.php - núcleo para leitura, edição segura e controle de auditoria
 
-// Criar funções principais:
-// - carregarArquivoTemp()
-// - salvarAuditoria()
-// - calcularDiff()
-// - aplicarEdicaoSegura()
+function contarLinhas($conteudo) {
+    return substr_count($conteudo, "\n") + 1;
+}
 
-// (implementação será feita por etapas futuras)
+function salvarAuditoria($arquivo, $linhasAntes, $linhasDepois, $tipoAlteracao, $justificativa) {
+    $logPath = __DIR__ . '/../logs/auditoria_edicoes.json';
+    
+    if (!file_exists($logPath)) {
+        file_put_contents($logPath, json_encode(["auditorias" => []], JSON_PRETTY_PRINT));
+    }
+
+    $json = json_decode(file_get_contents($logPath), true);
+    $json['auditorias'][] = [
+        "arquivo" => $arquivo,
+        "linhas_antes" => $linhasAntes,
+        "linhas_depois" => $linhasDepois,
+        "tipo_alteracao" => $tipoAlteracao,
+        "justificativa" => $justificativa,
+        "timestamp" => date("Y-m-d H:i:s")
+    ];
+
+    file_put_contents($logPath, json_encode($json, JSON_PRETTY_PRINT));
+}
 
 ?>
