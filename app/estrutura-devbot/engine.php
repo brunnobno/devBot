@@ -55,4 +55,25 @@ function salvarEstruturaGeral() {
     file_put_contents(__DIR__ . '/estrutura_geral.json', json_encode(["arquivos" => $estrutura], JSON_PRETTY_PRINT));
 }
 
+function carregarArquivoTemp($relativo) {
+    $base = __DIR__ . '/../';
+    $origem = $base . $relativo;
+    
+    if (!file_exists($origem)) return false;
+
+    $conteudo = file_get_contents($origem);
+
+    $destinoOriginal = __DIR__ . '/tmp/' . $relativo;
+    $destinoModificado = str_replace('original_', 'modificado_', $destinoOriginal);
+
+    if (!is_dir(dirname($destinoOriginal))) {
+        mkdir(dirname($destinoOriginal), 0777, true);
+    }
+
+    file_put_contents(str_replace(basename($destinoOriginal), 'original_' . basename($relativo), $destinoOriginal), $conteudo);
+    file_put_contents(str_replace(basename($destinoOriginal), 'modificado_' . basename($relativo), $destinoOriginal), $conteudo);
+
+    return true;
+}
+
 ?>
