@@ -7,7 +7,7 @@ servers:
   - url: https://bnzhost.com.br/devBot/app
 
 paths:
-  /github_api.php:
+  /services/github_api.php:
     post:
       operationId: githubOperations
       summary: Executa operações no GitHub e geração de código via OpenAI.
